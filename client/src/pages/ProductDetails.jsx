@@ -76,7 +76,7 @@ const ProductDetails = () => {
 
       <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
         {/* Left: Images */}
-        <div className="space-y-6 sm:sticky  top-32">
+        <div className="space-y-6">
           <div className="glass dark:bg-gray-800 rounded-[2.5rem] overflow-hidden premium-shadow border border-white/40 dark:border-white/5 bg-white">
             <img
               src={selectedImage || productImages[0]}
