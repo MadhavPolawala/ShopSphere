@@ -29,8 +29,11 @@ const buildUserPayload = (user) => ({
 
 const sendUserResponse = (res, user, statusCode = 200) => {
   const token = generateToken(user._id);
+  // Set cookie (works for same-domain; ignored cross-domain by browsers)
   res.cookie('token', token, getCookieOptions());
-  res.status(statusCode).json(buildUserPayload(user));
+  // Also include token in body so the client can persist it in localStorage
+  // This is required for cross-domain deployments (e.g. Netlify + Render)
+  res.status(statusCode).json({ ...buildUserPayload(user), token });
 };
 
 // @desc    Auth user & get token
