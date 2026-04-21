@@ -81,7 +81,7 @@ const ProductDetails = () => {
             <img
               src={selectedImage || productImages[0]}
               alt={product.name}
-              className="w-auto h-auto object-cover max-h-[600px]"
+              className="w-full h-auto object-cover h-[450px]"
             />
           </div>
 

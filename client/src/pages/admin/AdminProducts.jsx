@@ -229,7 +229,7 @@ const AdminProducts = () => {
   return (
     <div className="max-w-8xl mx-auto px-1 py-0 space-y-4">
       {/* Header with Toggle */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <h2 className="text-2xl sm:text-4xl font-black text-gray-900 dark:text-white tracking-tight">Product Inventory</h2>
           <p className="text-gray-500 dark:text-gray-400 mt-1 font-medium text-sm">Manage your catalog, stock, and media.</p>
@@ -240,8 +240,8 @@ const AdminProducts = () => {
             disabled={sortToggling}
             title={sortMode === 'random' ? 'Random mode ON — click to switch back to newest first' : 'Click to shuffle product suggestions for users'}
             className={`flex items-center gap-2 px-5 py-3 rounded-2xl font-bold text-sm border transition-all active:scale-95 disabled:opacity-50 ${sortMode === 'random'
-                ? 'bg-blue-600 border-blue-600 text-white  hover:bg-blue-700'
-                : 'border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'
+              ? 'bg-blue-600 border-blue-600 text-white  hover:bg-blue-700'
+              : 'border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'
               }`}
           >
             <Shuffle size={16} />
@@ -399,7 +399,7 @@ const AdminProducts = () => {
       {/* Product Table */}
       <div className="glass dark:bg-gray-800 rounded-[2.5rem] overflow-hidden premium-shadow border border-white/40 dark:border-white/5">
         <div className="overflow-x-auto">
-          <table className="min-w-full">
+          <table className="w-full min-w-[1300px]">
             <thead className="bg-gray-50/50 dark:bg-gray-900/50 border-b border-gray-100 dark:border-white/5 font-black text-gray-400 dark:text-gray-500 text-[10px] uppercase tracking-[0.2em]">
               <tr>
                 <th className="px-8 py-6 text-left">Product & Brand</th>
@@ -427,7 +427,7 @@ const AdminProducts = () => {
                     <td className="px-8 py-5">
                       <div className="flex items-center gap-4">
                         <img src={productImages[0]} alt={product.name}
-                          className="w-14 h-14 rounded-2xl object-cover border border-gray-200 dark:border-white/5"
+                          className="min-w-14 max-w-14 min-h-14 max-h-14 rounded-2xl object-cover border border-gray-200 dark:border-white/5"
                           onError={(e) => { e.target.src = 'https://placehold.co/56x56'; }} />
                         <div>
                           <p className="font-black text-gray-900 dark:text-white text-sm">{product.name}</p>

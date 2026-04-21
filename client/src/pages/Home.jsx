@@ -63,10 +63,10 @@ const Home = () => {
       <section className="mt-8 mb-3">
         <div className="relative max-w-2xl mx-auto">
           <div className="relative group">
-            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-600 transition-colors" size={20} />
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 transition-colors" size={20} />
             <input
               type="text"
-              placeholder="Search premium jewelry..."
+              placeholder="Search..."
               value={searchQuery}
               onChange={(e) => {
                 const q = e.target.value;
