@@ -210,7 +210,7 @@ const Navbar = () => {
             exit={{ opacity: 0, scale: 0.98 }}
             style={{ originY: 0 }}
             //fixed blur background
-            className="fixed inset-x-3 top-22 z-40 lg:hidden backdrop-blur-lg bg-white/60 dark:bg-gray-950/60 border border-white/50 dark:border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]  rounded-2xl p-6">
+            className="fixed inset-x-4 top-24 z-40 lg:hidden backdrop-blur-lg bg-white/60 dark:bg-gray-950/60 border border-white/50 dark:border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]  rounded-2xl p-6">
             <div className="flex flex-col space-y-4">
               <Link to="/" className="text-lg font-bold text-gray-800 dark:text-gray-200 flex items-center gap-2"
                 onClick={() => setIsMobileMenuOpen(false)}>
