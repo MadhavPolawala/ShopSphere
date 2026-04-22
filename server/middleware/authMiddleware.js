@@ -22,11 +22,23 @@ const protect = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log('authMiddleware: Decoded ID:', decoded.id);
+    console.log('authMiddleware: Decoded Payload:', decoded);
+    
+    // Try finding by ID first
     req.user = await User.findById(decoded.id).select('-password');
     
+    // Fallback: If ID fails but email exists in token, try finding by email
+    // This helps debug and fix ID mismatches in OAuth flows
+    if (!req.user && decoded.email) {
+      console.log('authMiddleware: User not found by ID, trying by email:', decoded.email);
+      req.user = await User.findOne({ email: decoded.email }).select('-password');
+      if (req.user) {
+        console.log('authMiddleware: User FOUND by email fallback. ID mismatch detected!');
+      }
+    }
+    
     if (!req.user) {
-      console.error('authMiddleware: User not found in database for ID:', decoded.id);
+      console.error('authMiddleware: User not found in database for ID:', decoded.id, 'and Email:', decoded.email);
       return res.status(401).json({ message: 'Not authorized, user not found' });
     }
     

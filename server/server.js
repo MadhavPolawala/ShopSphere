@@ -112,10 +112,13 @@ app.get('/auth/google/callback',
       return res.redirect(`${process.env.CLIENT_URL}/login?error=id_missing`);
     }
 
-    console.log('Google Auth Callback: Signing token for ID:', userId.toString());
-
-    // Sign a JWT with the user's MongoDB ID
-    const token = jwt.sign({ id: userId.toString() }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    console.log('Google Auth Callback: Signing token for ID:', userId.toString(), 'Email:', req.user.email);
+    // Sign a JWT with the user's MongoDB ID and Email
+    const token = jwt.sign(
+      { id: userId.toString(), email: req.user.email }, 
+      process.env.JWT_SECRET, 
+      { expiresIn: '7d' }
+    );
 
     // Redirect to frontend with token in URL
     res.redirect(`${process.env.CLIENT_URL}/auth/success?token=${token}`);
