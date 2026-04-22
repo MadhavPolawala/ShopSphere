@@ -15,12 +15,15 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
       return;
     }
+
     try {
       const { data } = await API.get('/users/profile');
       console.log('AuthContext: User profile loaded successfully');
       setUserInfo(data);
     } catch (err) {
-      console.error('AuthContext: Failed to load user profile', err.response?.data || err.message);
+      const errorMsg = err.response?.data?.message || err.message;
+      console.error('AuthContext: Failed to load user profile', errorMsg);
+      toast.error(`Login failed: ${errorMsg}`);
       localStorage.removeItem('token');
       setUserInfo(null);
     } finally {

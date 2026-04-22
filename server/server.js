@@ -63,12 +63,15 @@ passport.use(new GoogleStrategy(
       let user = await User.findOne({ $or: [{ googleId }, { email }] });
 
       if (user) {
+        console.log('Google Strategy: User found in DB:', user.email, 'ID:', user._id);
         // If user exists but doesn't have googleId (was registered with email), link them
         if (!user.googleId) {
+          console.log('Google Strategy: Linking existing email user to googleId');
           user.googleId = googleId;
           await user.save();
         }
       } else {
+        console.log('Google Strategy: Creating new user for:', email);
         // Create new user
         user = await User.create({
           name,
@@ -76,9 +79,11 @@ passport.use(new GoogleStrategy(
           googleId,
           // No password for google users
         });
+        console.log('Google Strategy: New user created with ID:', user._id);
       }
       return done(null, user);
     } catch (err) {
+      console.error('Google Strategy Error:', err);
       return done(err, null);
     }
   }
@@ -95,14 +100,22 @@ app.get('/auth/google/callback',
   passport.authenticate('google', { session: false, failureRedirect: `${process.env.CLIENT_URL}/login?error=google_failed` }),
   (req, res) => {
     console.log('Google Auth Callback: User found:', req.user ? req.user.email : 'NULL');
-    if (!req.user || !req.user._id) {
-      console.error('Google Auth Callback: req.user or req.user._id is missing!');
+    if (!req.user) {
+      console.error('Google Auth Callback: req.user is missing!');
       return res.redirect(`${process.env.CLIENT_URL}/login?error=user_not_found`);
     }
 
+    // Get ID safely
+    const userId = req.user._id || req.user.id;
+    if (!userId) {
+      console.error('Google Auth Callback: User ID is missing!', req.user);
+      return res.redirect(`${process.env.CLIENT_URL}/login?error=id_missing`);
+    }
+
+    console.log('Google Auth Callback: Signing token for ID:', userId.toString());
+
     // Sign a JWT with the user's MongoDB ID
-    // Sign a JWT with the user's MongoDB ID (stringified)
-    const token = jwt.sign({ id: req.user._id.toString() }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    const token = jwt.sign({ id: userId.toString() }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
     // Redirect to frontend with token in URL
     res.redirect(`${process.env.CLIENT_URL}/auth/success?token=${token}`);
