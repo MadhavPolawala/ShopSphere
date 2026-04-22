@@ -165,7 +165,28 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(
-  PORT,
-  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`)
-);
+app.listen(PORT, () => {
+  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+
+  // ─── Self-ping to prevent Render free-tier sleep ───────────────────────────
+  // Render spins down after 15 min of inactivity. We ping our own /api/products
+  // every 10 min (only in production) to keep the server awake.
+  if (process.env.NODE_ENV === 'production' && process.env.BACKEND_URL) {
+    const https = require('https');
+    const PING_INTERVAL_MS = 11 * 60 * 1000; // 11 minutes
+
+    const pingServer = () => {
+      const url = `${process.env.BACKEND_URL}/api/products`;
+      https.get(url, (res) => {
+        console.log(`[keep-alive] Pinged ${url} → ${res.statusCode}`);
+      }).on('error', (err) => {
+        console.warn(`[keep-alive] Ping failed: ${err.message}`);
+      });
+    };
+
+    // First ping after 10 min, then every 10 min thereafter
+    setInterval(pingServer, PING_INTERVAL_MS);
+    console.log('[keep-alive] Self-ping scheduled every 11 minutes');
+  }
+  // ───────────────────────────────────────────────────────────────────────────
+});
