@@ -1,8 +1,9 @@
-const express = require('express');
 const dotenv = require('dotenv');
+dotenv.config(); // ⚠️ Must be first — env vars must exist before any module reads them
+
+const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const path = require('path');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const jwt = require('jsonwebtoken');
@@ -15,7 +16,6 @@ const orderRoutes = require('./routes/orderRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const settingsRoutes = require('./routes/settingsRoutes');
 
-dotenv.config();
 
 connectDB();
 
@@ -40,9 +40,6 @@ app.use(cors({
 }));
 app.use(cookieParser());
 app.use(express.json());
-
-// Serve uploaded images as static files
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // ✅ Initialize Passport (no session needed — we use JWT)
 app.use(passport.initialize());
@@ -115,8 +112,8 @@ app.get('/auth/google/callback',
     console.log('Google Auth Callback: Signing token for ID:', userId.toString(), 'Email:', req.user.email);
     // Sign a JWT with the user's MongoDB ID and Email
     const token = jwt.sign(
-      { id: userId.toString(), email: req.user.email }, 
-      process.env.JWT_SECRET, 
+      { id: userId.toString(), email: req.user.email },
+      process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
 

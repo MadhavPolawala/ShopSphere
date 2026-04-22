@@ -1,5 +1,6 @@
 const Product = require('../models/productModel');
 const { getSettings } = require('../models/appSettingsModel');
+const cloudinary = require('../config/cloudinary');
 
 const normalizeImages = (images = [], image = '') => {
   const cleanedImages = Array.isArray(images)
@@ -22,7 +23,7 @@ const shuffle = (arr) => {
   return arr;
 };
 
-// @desc    Upload product images
+// @desc    Upload product images to Cloudinary
 // @route   POST /api/products/upload
 // @access  Private/Admin
 const uploadProductImages = async (req, res, next) => {
@@ -31,8 +32,17 @@ const uploadProductImages = async (req, res, next) => {
       return res.status(400).json({ message: 'No files uploaded' });
     }
 
-    const baseUrl = `${req.protocol}://${req.get('host')}`;
-    const urls = req.files.map((file) => `${baseUrl}/uploads/${file.filename}`);
+    // Convert each in-memory buffer to a base64 data URI and upload to Cloudinary
+    const uploadPromises = req.files.map((file) => {
+      const dataUri = `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
+      return cloudinary.uploader.upload(dataUri, {
+        folder: 'shopsphere/products',
+        transformation: [{ width: 1200, crop: 'limit' }],
+      });
+    });
+
+    const results = await Promise.all(uploadPromises);
+    const urls = results.map((r) => r.secure_url);
     res.json({ urls });
   } catch (err) {
     next(err);
