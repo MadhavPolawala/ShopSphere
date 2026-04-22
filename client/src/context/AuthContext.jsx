@@ -21,9 +21,7 @@ export const AuthProvider = ({ children }) => {
       console.log('AuthContext: User profile loaded successfully');
       setUserInfo(data);
     } catch (err) {
-      const errorMsg = err.response?.data?.message || err.message;
-      console.error('AuthContext: Failed to load user profile', errorMsg);
-      toast.error(`Login failed: ${errorMsg}`);
+      console.error('AuthContext: Failed to load user profile', err.response?.data || err.message);
       localStorage.removeItem('token');
       setUserInfo(null);
     } finally {
@@ -67,7 +65,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ userInfo, loading, login, register, logout, updateProfile, loadUser }}>
+    <AuthContext.Provider value={{ userInfo, setUserInfo, loading, login, register, logout, updateProfile, loadUser }}>
       {children}
     </AuthContext.Provider>
   );

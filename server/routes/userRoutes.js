@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { authUser, registerUser, getUserProfile, updateUserProfile, logoutUser } = require('../controllers/userController');
+const { authUser, registerUser, getUserProfile, updateUserProfile, logoutUser, googleLogin } = require('../controllers/userController');
 const { protect } = require('../middleware/authMiddleware');
 
 router.post('/', registerUser);
 router.post('/login', authUser);
+router.post('/google-login', googleLogin);
 router.post('/logout', logoutUser);
 router.get('/profile', protect, getUserProfile);
 router.put('/profile', protect, updateUserProfile);

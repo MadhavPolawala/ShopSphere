@@ -129,4 +129,38 @@ const logoutUser = (req, res) => {
   res.json({ message: 'Logged out successfully' });
 };
 
-module.exports = { authUser, registerUser, getUserProfile, updateUserProfile, logoutUser };
+// @desc    Exchange Google OAuth token for standard login response
+// @route   POST /api/users/google-login
+// @access  Public
+const googleLogin = async (req, res, next) => {
+  try {
+    const { token } = req.body;
+    if (!token) {
+      return res.status(400).json({ message: 'Token is required' });
+    }
+
+    // Verify the Google OAuth JWT
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Try finding user by ID first, then by email
+    let user = null;
+    if (decoded.id) {
+      user = await User.findById(decoded.id);
+    }
+    if (!user && decoded.email) {
+      user = await User.findOne({ email: decoded.email });
+    }
+
+    if (!user) {
+      return res.status(401).json({ message: 'User not found' });
+    }
+
+    // Return the SAME response format as normal login (with standard token)
+    sendUserResponse(res, user);
+  } catch (err) {
+    console.error('googleLogin error:', err.message);
+    res.status(401).json({ message: 'Invalid or expired token' });
+  }
+};
+
+module.exports = { authUser, registerUser, getUserProfile, updateUserProfile, logoutUser, googleLogin };
