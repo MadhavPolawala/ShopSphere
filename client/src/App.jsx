@@ -22,6 +22,7 @@ import Cart from './pages/Cart';
 import Orders from './pages/Orders';
 import Checkout from './pages/Checkout';
 import Profile from './pages/Profile';
+import AuthSuccess from './pages/AuthSuccess';
 import AdminProducts from './pages/admin/AdminProducts';
 import AdminOrders from './pages/admin/AdminOrders';
 
@@ -74,6 +75,7 @@ const AnimatedRoutes = () => {
             </GuestRoute>
           }
         />
+        <Route path="/auth/success" element={<PageWrapper><AuthSuccess /></PageWrapper>} />
 
         {/* Protected — requires login */}
         <Route element={<ProtectedRoute />}>

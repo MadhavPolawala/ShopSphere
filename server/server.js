@@ -7,6 +7,7 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const jwt = require('jsonwebtoken');
 const connectDB = require('./config/db');
+const User = require('./models/userModel');
 
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
@@ -53,14 +54,27 @@ passport.use(new GoogleStrategy(
   },
   async (accessToken, refreshToken, profile, done) => {
     try {
-      // Build a user object from Google profile
-      // In a real app you'd do: User.findOrCreate({ googleId: profile.id })
-      const user = {
-        googleId: profile.id,
-        name: profile.displayName,
-        email: profile.emails[0].value,
-        avatar: profile.photos[0].value,
-      };
+      const email = profile.emails[0].value;
+      const name = profile.displayName;
+      const googleId = profile.id;
+
+      let user = await User.findOne({ $or: [{ googleId }, { email }] });
+
+      if (user) {
+        // If user exists but doesn't have googleId (was registered with email), link them
+        if (!user.googleId) {
+          user.googleId = googleId;
+          await user.save();
+        }
+      } else {
+        // Create new user
+        user = await User.create({
+          name,
+          email,
+          googleId,
+          // No password for google users
+        });
+      }
       return done(null, user);
     } catch (err) {
       return done(err, null);
@@ -79,7 +93,8 @@ app.get('/auth/google/callback',
   passport.authenticate('google', { session: false, failureRedirect: `${process.env.CLIENT_URL}/login?error=google_failed` }),
   (req, res) => {
     // Sign a JWT with the user info
-    const token = jwt.sign(req.user, process.env.JWT_SECRET, { expiresIn: '7d' });
+    // Sign a JWT with the user's MongoDB ID
+    const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
     // Redirect to frontend with token in URL
     // Frontend reads ?token= and saves it to localStorage

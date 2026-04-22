@@ -7,28 +7,24 @@ export const AuthProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // On app load, if a token exists in localStorage, verify it by fetching the profile.
-    // The axios interceptor will automatically attach the token as a Bearer header,
-    // so this works even when cross-domain cookies are blocked by the browser.
-    const loadUser = async () => {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        setLoading(false);
-        return;
-      }
-      try {
-        const { data } = await API.get('/users/profile');
-        setUserInfo(data);
-      } catch {
-        // Token is invalid or expired — clean up
-        localStorage.removeItem('token');
-        setUserInfo(null);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const loadUser = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setLoading(false);
+      return;
+    }
+    try {
+      const { data } = await API.get('/users/profile');
+      setUserInfo(data);
+    } catch {
+      localStorage.removeItem('token');
+      setUserInfo(null);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     loadUser();
   }, []);
 
@@ -64,7 +60,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ userInfo, loading, login, register, logout, updateProfile }}>
+    <AuthContext.Provider value={{ userInfo, loading, login, register, logout, updateProfile, loadUser }}>
       {children}
     </AuthContext.Provider>
   );
