@@ -94,12 +94,17 @@ app.get('/auth/google',
 app.get('/auth/google/callback',
   passport.authenticate('google', { session: false, failureRedirect: `${process.env.CLIENT_URL}/login?error=google_failed` }),
   (req, res) => {
-    // Sign a JWT with the user info
+    console.log('Google Auth Callback: User found:', req.user ? req.user.email : 'NULL');
+    if (!req.user || !req.user._id) {
+      console.error('Google Auth Callback: req.user or req.user._id is missing!');
+      return res.redirect(`${process.env.CLIENT_URL}/login?error=user_not_found`);
+    }
+
     // Sign a JWT with the user's MongoDB ID
-    const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    // Sign a JWT with the user's MongoDB ID (stringified)
+    const token = jwt.sign({ id: req.user._id.toString() }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
     // Redirect to frontend with token in URL
-    // Frontend reads ?token= and saves it to localStorage
     res.redirect(`${process.env.CLIENT_URL}/auth/success?token=${token}`);
   }
 );

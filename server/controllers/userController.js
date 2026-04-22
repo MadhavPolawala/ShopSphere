@@ -79,6 +79,9 @@ const registerUser = async (req, res, next) => {
 // @access  Private
 const getUserProfile = async (req, res, next) => {
   try {
+    if (!req.user) {
+      return res.status(401).json({ message: 'Not authorized, user missing' });
+    }
     const user = await User.findById(req.user._id);
     if (user) {
       res.json(buildUserPayload(user));
