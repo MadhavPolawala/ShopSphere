@@ -4,7 +4,7 @@ import { AlertCircle, X } from 'lucide-react';
 
 const ConfirmationModal = ({ isOpen, onClose, onConfirm, title, message, confirmText = "Confirm", cancelText = "Cancel", type = "danger" }) => {
   if (!isOpen) return null;
-const modalBgClass = "backdrop-blur-sm bg-white/60 dark:bg-gray-950/60 border border-white/50 dark:border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]  rounded-2xl p-6";
+  const modalBgClass = "backdrop-blur-sm bg-white/60 dark:bg-gray-950/60 border border-white/50 dark:border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]  rounded-2xl p-6";
 
   return (
     <AnimatePresence>
@@ -32,14 +32,14 @@ const modalBgClass = "backdrop-blur-sm bg-white/60 dark:bg-gray-950/60 border bo
                 <AlertCircle size={24} />
               </div>
 
-              <button 
+              <button
                 onClick={onClose}
                 className="text-gray-400 hover:text-gray-600 transition-colors"
               >
                 <X size={20} />
               </button>
             </div>
-            
+
             <div className="mt-4">
               <h3 className="text-xl font-bold text-gray-900 dark:text-white">{title}</h3>
               <p className="mt-2 text-gray-600 dark:text-gray-400 leading-relaxed">
@@ -51,11 +51,10 @@ const modalBgClass = "backdrop-blur-sm bg-white/60 dark:bg-gray-950/60 border bo
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <button
                 onClick={onConfirm}
-                className={`flex-1 px-6 py-2.5 rounded-xl font-semibold transition-all shadow-sm ${
-                  type === 'danger' 
-                    ? 'bg-red-600 text-white hover:bg-red-700 active:scale-[0.98]' 
+                className={`min-w-max flex-1 px-6 py-2.5 rounded-xl font-semibold transition-all shadow-sm ${type === 'danger'
+                    ? 'bg-red-600 text-white hover:bg-red-700 active:scale-[0.98]'
                     : 'bg-blue-600 text-white hover:bg-blue-700 active:scale-[0.98]'
-                }`}
+                  }`}
               >
                 {confirmText}
               </button>
