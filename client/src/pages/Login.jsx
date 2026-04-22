@@ -138,7 +138,10 @@ const Login = () => {
 
           <div className="mt-8">
             <button
-              onClick={() => window.location.href = `${import.meta.env.VITE_BACKEND_URL}/auth/google`}
+              onClick={() => {
+                const backendUrl = import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_API_URL?.replace('/api', '');
+                window.location.href = `${backendUrl}/auth/google`;
+              }}
               className="w-full bg-white dark:bg-gray-900 border border-gray-100 dark:border-white/5 text-gray-700 dark:text-gray-300 py-4 rounded-2xl font-bold flex items-center justify-center gap-3 transition-all hover:bg-gray-50 dark:hover:bg-gray-800 active:scale-[0.98] premium-shadow"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">

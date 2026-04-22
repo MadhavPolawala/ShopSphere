@@ -7,26 +7,30 @@ export const AuthProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const loadUser = async () => {
+  const loadUser = useCallback(async () => {
     const token = localStorage.getItem('token');
+    console.log('AuthContext: loadUser called, token exists:', !!token);
+    
     if (!token) {
       setLoading(false);
       return;
     }
     try {
       const { data } = await API.get('/users/profile');
+      console.log('AuthContext: User profile loaded successfully');
       setUserInfo(data);
-    } catch {
+    } catch (err) {
+      console.error('AuthContext: Failed to load user profile', err.response?.data || err.message);
       localStorage.removeItem('token');
       setUserInfo(null);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     loadUser();
-  }, []);
+  }, [loadUser]);
 
   const login = async (email, password) => {
     const { data } = await API.post('/users/login', { email, password });

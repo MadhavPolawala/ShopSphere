@@ -12,15 +12,24 @@ const AuthSuccess = () => {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const token = params.get('token');
+    console.log('AuthSuccess: URL params checked, token present:', !!token);
 
     if (token) {
+      console.log('AuthSuccess: Setting token in localStorage');
       localStorage.setItem('token', token);
-      loadUser().then(() => {
-        toast.success('Successfully logged in with Google!');
-        navigate('/', { replace: true });
-      });
+      
+      // We use a small delay to ensure localStorage is updated before calling loadUser
+      // though usually it's synchronous, this can help with some race conditions
+      setTimeout(() => {
+        loadUser().then(() => {
+          console.log('AuthSuccess: loadUser finished, navigating to home');
+          toast.success('Successfully logged in with Google!');
+          navigate('/', { replace: true });
+        });
+      }, 100);
     } else {
-      toast.error('Authentication failed');
+      console.error('AuthSuccess: No token found in URL');
+      toast.error('Authentication failed: No token received');
       navigate('/login', { replace: true });
     }
   }, [location, navigate, loadUser]);
