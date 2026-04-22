@@ -81,7 +81,7 @@ const Home = () => {
                   setSuggestions([]);
                 }
               }}
-              className="w-full bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-white/5 rounded-[10px] py-1 pl-14 pr-6 text-lg font-bold text-gray-900 dark:text-white premium-shadow focus:border-blue-600 outline-none transition-all"
+              className="w-full bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-white/5 rounded-[10px] py-1 pl-14 pr-6 text-lg text-gray-900 dark:text-white premium-shadow focus:border-blue-600 outline-none transition-all"
             />
           </div>
 

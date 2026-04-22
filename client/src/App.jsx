@@ -136,7 +136,7 @@ function App() {
               <ScrollToTop />
               <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
                 <Navbar />
-                <main className="container mx-auto px-4 pt-4 pb-20">
+                <main className="container mx-auto px-4 pt-8 pb-20">
                   <AnimatedRoutes />
                 </main>
                 <SmartToaster />
