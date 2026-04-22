@@ -60,7 +60,7 @@ const Home = () => {
       <HeroCarousel />
 
       {/* ── Search Bar Section ──────────────────────────────── */}
-      <section className="mt-8 mb-3">
+      <section className="mt-8 mb-5">
         <div className="relative max-w-2xl mx-auto">
           <div className="relative group">
             <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 transition-colors" size={20} />
@@ -129,7 +129,7 @@ const Home = () => {
       <section className="mb-16">
         <div className="flex items-end justify-between mb-8">
           <div>
-            <p className="text-blue-600 dark:text-blue-400 font-black text-[10px] md:text-xs uppercase tracking-widest mb-1">
+            <p className="text-blue-600 dark:text-blue-400 font-black text-[10px] md:text-xs uppercase tracking-widest mb-2">
               Handpicked For You
             </p>
             <h2 className="text-3xl sm:text-5xl font-black text-gray-900 dark:text-white tracking-tight">
