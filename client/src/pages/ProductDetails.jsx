@@ -130,25 +130,25 @@ const ProductDetails = () => {
             {product.description}
           </p>
 
-          <div className="glass dark:bg-gray-800 p-6 sm:p-8 rounded-[2rem] premium-shadow border border-white/40 dark:border-white/5 mb-6 sm:mb-8">
+          <div className="glass dark:bg-gray-800 p-4 sm:p-8 rounded-[2rem] premium-shadow border border-white/40 dark:border-white/5 mb-6 sm:mb-8">
             <div className="flex items-center sm:items-end justify-between gap-4">
               <div>
                 <p className="text-gray-400 font-bold text-xs uppercase tracking-widest mb-1">Price</p>
-                <span className="text-2xl sm:text-3xl font-black text-blue-600 dark:text-blue-400">
+                <span className="text-xl sm:text-3xl font-black text-blue-600 dark:text-blue-400">
                   ₹{product.price?.toLocaleString()}
                 </span>
               </div>
 
               {product.countInStock > 0 && (
-                <div className="flex items-center gap-4 bg-gray-100 dark:bg-gray-900/50 p-2 rounded-2xl border border-gray-200 dark:border-white/5">
+                <div className="flex items-center sm:gap-4 bg-gray-100 dark:bg-gray-900/50 p-2 rounded-2xl border border-gray-200 dark:border-white/5">
                   <button
                     onClick={() => setQty(Math.max(1, qty - 1))}
-                    className="w-10 h-10 flex items-center justify-center font-bold text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors"
+                    className="w-6 h-6 sm:w-10 sm:h-10 flex items-center justify-center font-bold text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors"
                   >–</button>
                   <span className="w-8 text-center font-black dark:text-white">{qty}</span>
                   <button
                     onClick={() => setQty(Math.min(product.countInStock, qty + 1))}
-                    className="w-10 h-10 flex items-center justify-center font-bold text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors"
+                    className="w-6 h-6 sm:w-10 sm:h-10 flex items-center justify-center font-bold text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors"
                   >+</button>
                 </div>
               )}
@@ -172,7 +172,7 @@ const ProductDetails = () => {
             </button>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 sm:mt-3">
+          <div className="grid sm:grid-cols-2 gap-4 sm:mt-3">
             <div className="p-4 rounded-3xl border border-gray-100 dark:border-white/5 text-center">
               <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-1">Satisfication</p>
               <p className="font-bold text-gray-900 dark:text-gray-200">Guaranteed</p>

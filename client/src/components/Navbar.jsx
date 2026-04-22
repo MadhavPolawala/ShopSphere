@@ -48,14 +48,14 @@ const Navbar = () => {
   return (
     <>
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-4 lg:px-8 py-4`}>
-        <div className={`max-w-8xl mx-auto rounded-2xl transition-all duration-500 border ${isScrolled ? " backdrop-blur-sm bg-white/60 dark:bg-gray-950/60 border border-white/50 dark:border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] px-6 py-3 border-white/20" : "bg-transparent py-4 border-transparent"}`}>
+        <div className={`max-w-8xl mx-auto rounded-2xl transition-all duration-500 border ${isScrolled ? " backdrop-blur-sm bg-white/60 dark:bg-gray-950/60 border border-white/50 dark:border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] sm:px-6 px-3 py-3 border-white/20" : "bg-transparent py-4 border-transparent"}`}>
           <div className="flex justify-between items-center">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 group hover:scale-105 transition-transform">
-              <div className="w-12 h-12  flex items-center justify-center hover:scale-105 ">
+              <div className="sm:w-12 sm:h-12 h-8 w-8 flex items-center justify-center hover:scale-105 ">
                 <img src={Logo} alt="Logo" />
               </div>
-              <span className="text-2xl font-black tracking-tighter text-[#0d4f81] dark:text-[#468fc7]">
+              <span className="text-lg sm:text-2xl font-black tracking-tighter text-[#0d4f81] dark:text-[#468fc7]">
                 Shop<span className="text-[#38710a] dark:text-[#6ab130]">Sphere</span>
               </span>
             </Link>
@@ -174,7 +174,7 @@ const Navbar = () => {
             </div>
 
             {/* Mobile Menu Toggle */}
-            <div className="flex items-center gap-2 lg:hidden">
+            <div className="flex items-center sm:gap-2 lg:hidden">
               <button onClick={toggleTheme} className="p-2 text-gray-600 dark:text-gray-400" aria-label="Toggle theme">
                 {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
               </button>
@@ -210,7 +210,7 @@ const Navbar = () => {
             exit={{ opacity: 0, scale: 0.98 }}
             style={{ originY: 0 }}
             //fixed blur background
-            className="fixed inset-x-4 top-24 z-40 lg:hidden backdrop-blur-lg bg-white/60 dark:bg-gray-950/60 border border-white/50 dark:border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]  rounded-2xl p-6">
+            className="fixed inset-x-4 sm:top-24 top-[86px] z-40 lg:hidden backdrop-blur-lg bg-white/60 dark:bg-gray-950/60 border border-white/50 dark:border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]  rounded-2xl p-6">
             <div className="flex flex-col space-y-4">
               <Link to="/" className="text-lg font-bold text-gray-800 dark:text-gray-200 flex items-center gap-2"
                 onClick={() => setIsMobileMenuOpen(false)}>
