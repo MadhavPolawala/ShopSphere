@@ -48,7 +48,7 @@ const Navbar = () => {
   return (
     <>
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-4 lg:px-8 py-4`}>
-        <div className={`max-w-8xl mx-auto rounded-2xl transition-all duration-500 border ${isScrolled ? " bg-white/60 dark:bg-gray-950/60 border border-white/50 dark:border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] sm:px-6 px-3 py-3 border-white/20" : "bg-transparent py-4 border-transparent"}`}>
+        <div className={`max-w-8xl mx-auto rounded-2xl transition-all duration-500 border ${isScrolled ? "backdrop-blur-sm bg-white/60 dark:bg-gray-950/60 border border-white/50 dark:border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] sm:px-6 px-3 py-3 border-white/20" : "bg-transparent py-4 border-transparent"}`}>
           <div className="flex justify-between items-center">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 group hover:scale-105 transition-transform">
